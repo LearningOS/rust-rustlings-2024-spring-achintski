@@ -10,9 +10,9 @@
 // I AM NOT DONE
 
 fn main() {
-    let vec0 = Vec::new();
+    let vec0: Vec<i32> = Vec::new();
 
-    let mut vec1 = fill_vec(vec0);
+    let mut vec1: Vec<i32> = fill_vec(vec0.clone());
 
     println!("{} has length {}, with contents: `{:?}`", "vec0", vec0.len(), vec0);
 
