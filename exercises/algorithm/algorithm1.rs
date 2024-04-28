@@ -69,15 +69,51 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
-	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+	// pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
+	// {
+	// 	//TODO
+	// 	Self {
+    //         length: 0,
+    //         start: None,
+    //         end: None,
+    //     }
+	// }
+        pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self
+    where
+        T: Ord + Clone,
+    {
+        let mut merged_list = LinkedList::new();
+        let mut a_node = list_a.start;
+        let mut b_node = list_b.start;
+
+        while a_node.is_some() || b_node.is_some() {
+            let a_val = a_node.as_ref().map(|node| unsafe { node.as_ref().val.clone() });
+            let b_val = b_node.as_ref().map(|node| unsafe { node.as_ref().val.clone() });
+
+            match (a_val, b_val) {
+                (Some(a_val), Some(b_val)) => {
+                    if a_val < b_val {
+                        merged_list.add(a_val);
+                        a_node = unsafe { a_node.unwrap().as_ref().next };
+                    } else {
+                        merged_list.add(b_val);
+                        b_node = unsafe { b_node.unwrap().as_ref().next };
+                    }
+                }
+                (Some(a_val), None) => {
+                    merged_list.add(a_val);
+                    a_node = unsafe { a_node.unwrap().as_ref().next };
+                }
+                (None, Some(b_val)) => {
+                    merged_list.add(b_val);
+                    b_node = unsafe { b_node.unwrap().as_ref().next };
+                }
+                (None, None) => break,
+            }
         }
-	}
+
+        merged_list
+    }
 }
 
 impl<T> Display for LinkedList<T>

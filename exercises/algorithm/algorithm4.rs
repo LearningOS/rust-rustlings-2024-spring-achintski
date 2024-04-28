@@ -39,34 +39,99 @@ where
     }
 }
 
+// impl<T> BinarySearchTree<T>
+// where
+//     T: Ord,
+// {
+
+//     fn new() -> Self {
+//         BinarySearchTree { root: None }
+//     }
+
+//     // Insert a value into the BST
+//     fn insert(&mut self, value: T) {
+//         //TODO
+//     }
+
+//     // Search for a value in the BST
+//     fn search(&self, value: T) -> bool {
+//         //TODO
+//         true
+//     }
+// }
+
+// impl<T> TreeNode<T>
+// where
+//     T: Ord,
+// {
+//     // Insert a node into the tree
+//     fn insert(&mut self, value: T) {
+//         //TODO
+//     }
+// }
+impl<T> TreeNode<T>
+where
+    T: Ord + Debug,
+{
+    fn new(value: T) -> Self {
+        TreeNode {
+            value,
+            left: None,
+            right: None,
+        }
+    }
+
+    // 在树中插入节点
+    fn insert(&mut self, value: T) {
+        if value < self.value {
+            match self.left {
+                Some(ref mut node) => node.insert(value),
+                None => self.left = Some(Box::new(TreeNode::new(value))),
+            }
+        } else if value > self.value {
+            match self.right {
+                Some(ref mut node) => node.insert(value),
+                None => self.right = Some(Box::new(TreeNode::new(value))),
+            }
+        }
+    }
+}
+
 impl<T> BinarySearchTree<T>
 where
-    T: Ord,
+    T: Ord + Debug,
 {
-
     fn new() -> Self {
         BinarySearchTree { root: None }
     }
 
-    // Insert a value into the BST
+    // 在二叉搜索树中插入值
     fn insert(&mut self, value: T) {
-        //TODO
+        match self.root {
+            Some(ref mut node) => node.insert(value),
+            None => self.root = Some(Box::new(TreeNode::new(value))),
+        }
     }
 
-    // Search for a value in the BST
+    // 在二叉搜索树中查找值
     fn search(&self, value: T) -> bool {
-        //TODO
-        true
+        match &self.root {
+            Some(node) => node.value == value || self.search_node(node, value),
+            None => false,
+        }
     }
-}
 
-impl<T> TreeNode<T>
-where
-    T: Ord,
-{
-    // Insert a node into the tree
-    fn insert(&mut self, value: T) {
-        //TODO
+    fn search_node(&self, node: &TreeNode<T>, value: T) -> bool {
+        if value < node.value {
+            if let Some(ref left) = node.left {
+                return left.value == value || self.search_node(left, value);
+            }
+        } else if value > node.value {
+            if let Some(ref right) = node.right {
+                return right.value == value || self.search_node(right, value);
+            }
+        }
+        false
     }
 }
 
