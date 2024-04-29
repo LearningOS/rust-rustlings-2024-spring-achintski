@@ -3,7 +3,7 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
+
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -26,18 +26,18 @@ where
     root: Option<Box<TreeNode<T>>>,
 }
 
-impl<T> TreeNode<T>
-where
-    T: Ord,
-{
-    fn new(value: T) -> Self {
-        TreeNode {
-            value,
-            left: None,
-            right: None,
-        }
-    }
-}
+// impl<T> TreeNode<T>
+// where
+//     T: Ord,
+// {
+//     fn new(value: T) -> Self {
+//         TreeNode {
+//             value,
+//             left: None,
+//             right: None,
+//         }
+//     }
+// }
 
 // impl<T> BinarySearchTree<T>
 // where
